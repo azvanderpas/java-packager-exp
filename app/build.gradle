@@ -12,6 +12,8 @@ plugins {
     id 'maven-publish'
 }
 
+group = 'com.github.azvanderpas'
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -27,7 +29,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'java.packager.exp.App'
+    mainClass = 'frc.team2158.utils.App'
 }
 
 tasks.named('test') {
@@ -35,16 +37,15 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-publishing {
+java {
+	withSourcesJar()
+	withJavadocJar()
+}
 
-  repositories {
-    maven {
-      name = "OSSRH"
-      url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-      credentials {
-        username = System.getenv("MAVEN_USERNAME")
-        password = System.getenv("MAVEN_PASSWORD")
-      }
+publishing {
+    publications {
+        maven(MavenPublication) {
+		from components.java
+        }
     }
-  }
 }
